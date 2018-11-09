@@ -29,8 +29,14 @@ nounAddin <- function() {
     icons_selection <- c()
 
     shiny::observeEvent(input$done, {
-      rstudioapi::sendToConsole(paste(icons_selection, collapse=","),
-                                execute = F)
+      rstudioapi::sendToConsole(
+        ifelse(length(icons_selection) > 0,
+               paste0("c(",
+                      paste(sapply(icons_selection,
+                                   function(x) paste0("\"", x, "\"")),
+                            collapse=","), ")"),
+               ""),
+        execute = F)
       shiny::stopApp()
     })
     shiny::observeEvent(input$cancel, {
@@ -61,11 +67,20 @@ nounAddin <- function() {
         lapply(imurls,
                function(x) {
                  btn_name <- paste0("button", x$id)
+<<<<<<< HEAD
+                 if (!(btn_name %in% names(obs_list)))
+                   obs_list[[btn_name]] <<- observeEvent(input[[btn_name]], {
+                     icons_selection <<- c(icons_selection, x$id)
+                     output$selection <- renderText({ icons_selection })
+                     showNotification(paste(x$id, "selected"), duration=2)
+                   })
+=======
                  obs_list[[btn_name]] <<- observeEvent(input[[btn_name]], {
                    icons_selection <<- c(icons_selection, x$id)
                    output$selection <- renderText({ icons_selection })
                    shiny::showNotification(paste(x$id, "selected"), duration=2)
                  })
+>>>>>>> master
                  create_image_div(x$id, x$url, img_size)
                 }
         )
