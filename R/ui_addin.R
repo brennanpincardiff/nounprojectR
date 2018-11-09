@@ -67,12 +67,20 @@ nounAddin <- function() {
         lapply(imurls,
                function(x) {
                  btn_name <- paste0("button", x$id)
+<<<<<<< HEAD
                  if (!(btn_name %in% names(obs_list)))
                    obs_list[[btn_name]] <<- observeEvent(input[[btn_name]], {
                      icons_selection <<- c(icons_selection, x$id)
                      output$selection <- renderText({ icons_selection })
                      showNotification(paste(x$id, "selected"), duration=2)
                    })
+=======
+                 obs_list[[btn_name]] <<- observeEvent(input[[btn_name]], {
+                   icons_selection <<- c(icons_selection, x$id)
+                   output$selection <- renderText({ icons_selection })
+                   shiny::showNotification(paste(x$id, "selected"), duration=2)
+                 })
+>>>>>>> master
                  create_image_div(x$id, x$url, img_size)
                 }
         )
